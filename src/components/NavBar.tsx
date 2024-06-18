@@ -42,6 +42,9 @@ export default function NavBar() {
           <DropdownMenuItem>
             <Link href="/config">Config Data</Link>
           </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href="/shadcn">Shad Play</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </nav>

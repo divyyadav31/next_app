@@ -21,6 +21,9 @@ export default function Home() {
       <Link href="/config" className="rounded-md p-2 m-2 bg-blue-300">
         Go to Config Data
       </Link>
+      <Link href="/shadcn" className="rounded-md p-2 m-2 bg-blue-300">
+        Go to shad play
+      </Link>
     </main>
   );
 }
