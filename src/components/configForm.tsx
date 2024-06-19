@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,20 +12,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
-import { Textarea } from "./ui/textarea";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { revalidatePath } from "next/cache";
+} from '@/components/ui/form';
+import { toast } from '@/components/ui/use-toast';
+import { Textarea } from './ui/textarea';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const FormSchema = z.object({
   configData: z
     .string()
-    .min(1, "Data is required")
+    .min(1, 'Data is required')
     .refine(
       (data) => {
         try {
@@ -36,8 +31,8 @@ const FormSchema = z.object({
         }
       },
       {
-        message: "Invalid JSON format.",
-      }
+        message: 'Invalid JSON format.',
+      },
     ),
 });
 
@@ -50,7 +45,7 @@ const ConfigForm = () => {
 
   const OnSubmit = async (data: z.infer<typeof FormSchema>) => {
     toast({
-      title: "You submitted the following Data:",
+      title: 'You submitted the following Data:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{data.configData}</code>
@@ -63,28 +58,24 @@ const ConfigForm = () => {
   const mutation = useMutation({
     mutationFn: async (data: z.infer<typeof FormSchema>) => {
       try {
-        const response = await fetch("http://localhost:4000/api/config", {
-          method: "PUT",
+        const response = await fetch('http://localhost:4000/api/config', {
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         });
         return await response.json();
       } catch (error) {
-        console.error("Error in mutation :", error);
+        console.error('Error in mutation :', error);
         return error;
       }
     },
     onSuccess: async () => {
       try {
-        console.log("inside onSuccess");
-        await queryClient.invalidateQueries({
-          queryKey: ["configData"],
-        });
-        console.log("end of onSuccess");
+        await queryClient.invalidateQueries({ queryKey: ['configData'] });
       } catch (error) {
-        console.error("Error refetching queries:", error);
+        console.error('Error refetching queries:', error);
       }
     },
   });
